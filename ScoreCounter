@@ -1,0 +1,18 @@
+using System;
+using UnityEngine;
+
+namespace CODDY
+{
+    public class ScoreCounter : MonoBehaviour
+    {
+        [SerializeField] private int _score;
+
+        public event Action<int> OnScoreChange;
+
+        public void AddScore()
+        {
+            _score++;
+            OnScoreChange?.Invoke(_score);
+        }
+    }
+}
