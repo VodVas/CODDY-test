@@ -1,0 +1,29 @@
+using UnityEngine;
+
+namespace CODDY
+{
+    public class GameOverHandler : MonoBehaviour
+    {
+        [SerializeField] private Health _health;
+        [SerializeField] private PauseMenuController _pauseController;
+        [SerializeField] private GameObject _gameOverPanel;
+        [SerializeField] private GameObject _hud;
+
+        private void OnEnable()
+        {
+            _health.OnDead += ShowGameOver;
+        }
+
+        private void OnDisable()
+        {
+            _health.OnDead -= ShowGameOver;
+        }
+
+        private void ShowGameOver()
+        {
+            _pauseController.TogglePause();
+            _gameOverPanel.SetActive(true);
+            _hud.SetActive(false);
+        }
+    }
+}
