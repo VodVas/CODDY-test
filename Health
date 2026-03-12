@@ -1,0 +1,28 @@
+using System;
+using UnityEngine;
+
+namespace CODDY
+{
+    public class Health : MonoBehaviour
+    {
+        [SerializeField] private int _health = 100;
+
+        public event Action<int> OnHealthChanged;
+        public event Action OnDead;
+
+        public void TakeDamage(int damage)
+        {
+            if (damage > 0)
+            {
+                _health -= damage;
+                OnHealthChanged?.Invoke(_health);
+            }
+
+            if (_health <= 0)
+            {
+                _health = 0;
+                OnDead?.Invoke();
+            }
+        }
+    }
+}
