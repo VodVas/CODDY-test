@@ -1,0 +1,26 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace CODDY
+{
+    public class HealthUI : MonoBehaviour
+    {
+        [SerializeField] private Health _health;
+        [SerializeField] private Slider _slider;
+
+        private void OnEnable()
+        {
+            _health.OnHealthChanged += UpdateUI;
+        }
+
+        private void OnDisable()
+        {
+            _health.OnHealthChanged -= UpdateUI;
+        }
+
+        private void UpdateUI(int value)
+        {
+            _slider.value = value;
+        }
+    }
+}
