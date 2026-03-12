@@ -1,0 +1,26 @@
+using TMPro;
+using UnityEngine;
+
+namespace CODDY
+{
+    public class ScoreUI : MonoBehaviour
+    {
+        [SerializeField] private ScoreCounter _scoreCounter;
+        [SerializeField] private TextMeshProUGUI _text;
+
+        private void OnEnable()
+        {
+            _scoreCounter.OnScoreChange += UpdateUI;
+        }
+
+        private void OnDisable()
+        {
+            _scoreCounter.OnScoreChange -= UpdateUI;
+        }
+
+        private void UpdateUI(int value)
+        {
+            _text.text = value.ToString();
+        }
+    }
+}
