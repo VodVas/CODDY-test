@@ -1,0 +1,64 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace CODDY
+{
+    public class PauseMenuController : MonoBehaviour
+    {
+        [SerializeField] private Button _pauseButton;
+        [SerializeField] private Button _restartButton;
+        [SerializeField] private CanvasGroup _canvasGroup;
+        [SerializeField, Min(0.01f)] private float _duration = 5f;
+
+        private bool _isVisible = false;
+        private bool _isPaused = false;
+
+        private void Update()
+        {
+            _canvasGroup.alpha = Mathf.Lerp(_canvasGroup.alpha, _isVisible ? 1f : 0f, _duration * Time.unscaledDeltaTime);
+        }
+
+        private void OnEnable()
+        {
+            _pauseButton.onClick.AddListener(TogglePause);
+            _restartButton.onClick.AddListener(RestartScene);
+        }
+
+        private void OnDisable()
+        {
+            _pauseButton.onClick.RemoveListener(TogglePause);
+            _restartButton.onClick.RemoveListener(RestartScene);
+        }
+
+        public void TogglePause()
+        {
+            _isPaused = !_isPaused;
+
+            Time.timeScale = _isPaused ? 0f : 1f;
+
+            if (_isPaused)
+            {
+                _isVisible = true;
+                ToggleMenuInteract(_isVisible);
+            }
+            else
+            {
+                _isVisible = false;
+                ToggleMenuInteract(_isVisible);
+            }
+        }
+
+        private void RestartScene()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            Time.timeScale = 1f;
+        }
+
+        private void ToggleMenuInteract(bool isVisible)
+        {
+            _canvasGroup.interactable = isVisible;
+            _canvasGroup.blocksRaycasts = isVisible;
+        }
+    }
+}
